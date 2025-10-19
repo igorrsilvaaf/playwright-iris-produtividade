@@ -4,13 +4,9 @@
 npm install
 ```
 
-3. Instale os navegadores do Playwright:
-
 ```bash
 npx playwright install
 ```
-
-## Executando os Testes
 
 ### Executar todos os testes
 
@@ -47,8 +43,6 @@ npm run test:headed
 ```bash
 npm run test:report
 ```
-
-## Ambientes
 
 ### Produção (padrão)
 
