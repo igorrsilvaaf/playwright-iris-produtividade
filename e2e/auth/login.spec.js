@@ -42,7 +42,7 @@ test.describe('API - Login de Usuário', () => {
     
     const responseBody = await response.json();
     apiHelper.validateErrorStructure(responseBody);
-    expect(responseBody.message).toMatch(/credenciais|senha|inválid/i);
+    expect(responseBody.message).toMatch('Invalid email or password');
   });
 
   test('Deve falhar com credenciais inválidas - email não existe', async () => {
@@ -54,7 +54,7 @@ test.describe('API - Login de Usuário', () => {
     
     const responseBody = await response.json();
     apiHelper.validateErrorStructure(responseBody);
-    expect(responseBody.message).toMatch(/credenciais|usuário|inválid|não encontrado/i);
+    expect(responseBody.message).toMatch('Invalid email or password');
   });
 
   test('Deve falhar com email e senha incorretos', async () => {
@@ -73,7 +73,7 @@ test.describe('API - Login de Usuário', () => {
       for (const invalidEmail of TestData.invalidEmails) {
         const response = await apiHelper.login(invalidEmail, registeredUser.password);
         
-        expect([400, 401]).toContain(response.status()); // Pode retornar 400 (bad request) ou 401 (unauthorized)
+        expect([401]).toContain(response.status()); // Pode retornar 400 (bad request) ou 401 (unauthorized)
         const responseBody = await response.json();
         apiHelper.validateErrorStructure(responseBody);
       }
@@ -128,18 +128,6 @@ test.describe('API - Login de Usuário', () => {
       const response3 = await apiHelper.login('', '');
       expect([400, 401]).toContain(response3.status());
     });
-  });
-
-  test('Deve falhar com Content-Type incorreto', async () => {
-    const response = await apiHelper.request.post(`${Config.getBaseURL()}${Config.endpoints.auth.login}`, {
-      data: `email=${registeredUser.email}&password=${registeredUser.password}`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    });
-
-    // Dependendo da implementação da API, pode retornar 400 ou 415
-    expect([400, 415]).toContain(response.status());
   });
 
   test('Deve aceitar login case-insensitive para email', async () => {

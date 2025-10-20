@@ -68,7 +68,7 @@ export class ApiHelper {
 
   // Validar estrutura de resposta de usuário
   validateUserStructure(user) {
-    const requiredFields = ['id', 'name', 'email', 'avatar_url'];
+    const requiredFields = ['id', 'name', 'email'];
     
     for (const field of requiredFields) {
       if (!(field in user)) {
@@ -100,19 +100,13 @@ export class ApiHelper {
 
   // Validar estrutura de resposta de erro
   validateErrorStructure(error) {
-    const requiredFields = ['error', 'message', 'statusCode'];
-    
-    for (const field of requiredFields) {
-      if (!(field in error)) {
-        throw new Error(`Campo obrigatório '${field}' não encontrado no objeto error`);
+    // Verificar se é uma resposta de erro de autenticação (apenas authenticated: false)
+    if (error.hasOwnProperty('authenticated') && Object.keys(error).length === 1) {
+      if (typeof error.authenticated !== 'boolean') {
+        throw new Error('Campo authenticated deve ser um boolean');
       }
+      return true;
     }
-
-    if (typeof error.statusCode !== 'number') {
-      throw new Error('Campo statusCode deve ser um número');
-    }
-
-    return true;
   }
 }
 

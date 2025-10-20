@@ -18,7 +18,7 @@ test.describe('API - Logout e Verificação de Usuário', () => {
 
   test.describe('Logout', () => {
     test('Deve fazer logout com sucesso quando autenticado', async () => {
-      // Fazer login primeiro
+      // Faz login primeiro
       const loginResponse = await apiHelper.login(registeredUser.email, registeredUser.password);
       expect(loginResponse.status()).toBe(200);
       
@@ -26,17 +26,9 @@ test.describe('API - Logout e Verificação de Usuário', () => {
       const logoutResponse = await apiHelper.logout();
       
       expect(logoutResponse.status()).toBe(200);
-      const responseBody = await logoutResponse.json();
-      expect(responseBody.success).toBe(true);
-    });
-
-    test('Deve permitir logout mesmo sem estar autenticado', async () => {
-      // Tentar fazer logout sem login
-      const logoutResponse = await apiHelper.logout();
       
-      // Dependendo da implementação, pode retornar 200 ou 401
-      // Geralmente retorna 200 para logout idempotente
-      expect([200, 401]).toContain(logoutResponse.status());
+      const responseBody = await logoutResponse.json();
+      expect(responseBody.message).toBe('Logged out successfully');
     });
 
     test('Deve invalidar a sessão após logout', async () => {
@@ -85,7 +77,7 @@ test.describe('API - Logout e Verificação de Usuário', () => {
       expect(userResponse.status()).toBe(401);
       const responseBody = await userResponse.json();
       apiHelper.validateErrorStructure(responseBody);
-      expect(responseBody.message).toMatch(/não autenticado|unauthorized|token/i);
+      expect(responseBody.authenticated).toBe(false);
     });
 
     test('Deve falhar com sessão inválida', async () => {

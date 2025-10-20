@@ -49,9 +49,9 @@ export const Config = {
   
   // Dados de teste padrão
   testData: {
-    defaultName: 'Usuario Teste',
-    defaultEmail: 'automação@teste.playwright.com',
-    defaultPassword: 'senha123456',
-    domain: '@teste.playwright.com'
+    defaultName: 'Automação',
+    defaultEmail: 'automacao@playwright.com',
+    defaultPassword: 'Teste@123',
+    domain: '@playwright.com'
   }
 };
