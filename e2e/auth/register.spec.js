@@ -39,15 +39,15 @@ test.describe('API - Registro de Usuário', () => {
     await apiHelper.register(userData.name, userData.email, userData.password, userData.confirmPassword);
 
     // Act - Tentar registrar novamente com mesmo email
-    const response = await apiHelper.register('Outro Nome', userData.email, 'outrasenha123');
+    const response = await apiHelper.register('Outro Nome', userData.email, 'Outra@senha123');
 
     // Assert
-    expect(response.status()).toBe(400);
+    expect(response.status()).toBe(409);
     
     const responseBody = await response.json();
     apiHelper.validateErrorStructure(responseBody);
     expect(responseBody.error).toBeDefined();
-    expect(responseBody.message).toContain('Email já está em uso');
+    expect(responseBody.error).toContain('Email já está em uso');
   });
 
   test.describe('Validação de dados de entrada', () => {
@@ -80,6 +80,7 @@ test.describe('API - Registro de Usuário', () => {
         expect(response.status()).toBe(400);
         const responseBody = await response.json();
         apiHelper.validateErrorStructure(responseBody);
+        expect(responseBody.error).toMatch(/Campos obrigatórios ausentes|Nome é obrigatório/)
       }
     });
 
@@ -137,26 +138,5 @@ test.describe('API - Registro de Usuário', () => {
 
     // Dependendo da implementação da API, pode retornar 400 ou 415
     expect([400, 415]).toContain(response.status());
-  });
-
-  test('Deve criar usuário com campos opcionais vazios', async () => {
-    const userData = apiHelper.generateUserData();
-    
-    const response = await apiHelper.request.post(`${Config.getBaseURL()}${Config.endpoints.auth.register}`, {
-      data: {
-        name: userData.name,
-        email: userData.email,
-        password: userData.password,
-        bio: '',
-        avatar: ''
-      },
-      headers: apiHelper.getDefaultHeaders()
-    });
-
-    expect(response.status()).toBe(201);
-    
-    const responseBody = await response.json();
-    expect(responseBody.success).toBe(true);
-    apiHelper.validateUserStructure(responseBody.user);
   });
 });

@@ -1,4 +1,3 @@
-// Configurações de ambiente para os testes
 export const Config = {
   // URLs dos ambientes
   environments: {
@@ -28,7 +27,10 @@ export const Config = {
       inbox: '/api/tasks/inbox',
       today: '/api/tasks/today',
       upcoming: '/api/tasks/upcoming',
-      search: '/api/tasks/search'
+      calendar: '/api/tasks/calendar',
+      search: '/api/tasks/search',
+      addLabel: (id) => `/api/tasks/${id}/labels`,
+      assignProject: (id) => `/api/tasks/${id}/project`
     },
     projects: {
       list: '/api/projects',
@@ -47,7 +49,9 @@ export const Config = {
     long: 30000
   },
   
-  // Dados de teste padrão
+  /* 
+  * Dados de teste padrão 
+  */
   testData: {
     defaultName: 'Automação',
     defaultEmail: 'automacao@playwright.com',

@@ -15,10 +15,6 @@ test.describe('Verificação de Configuração', () => {
   test('Deve conseguir fazer uma requisição para a API de produção', async ({ request }) => {
     const apiHelper = new ApiHelper(request);
     
-    // Tentativa de fazer uma requisição simples (que deve falhar por não ter auth, mas não por conexão)
-    const response = await request.get(`${apiHelper.baseURL}/api/auth/me`);
-    
-    // Esperamos 401 (não autorizado) em vez de erro de conexão
     expect([401, 404, 200]).toContain(response.status());
     console.log('✅ API respondeu com status:', response.status());
   });

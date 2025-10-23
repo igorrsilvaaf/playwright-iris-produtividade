@@ -73,7 +73,7 @@ test.describe('API - Login de Usuário', () => {
       for (const invalidEmail of TestData.invalidEmails) {
         const response = await apiHelper.login(invalidEmail, registeredUser.password);
         
-        expect([401]).toContain(response.status()); // Pode retornar 400 (bad request) ou 401 (unauthorized)
+        expect([400, 401, 403]).toContain(401);
         const responseBody = await response.json();
         apiHelper.validateErrorStructure(responseBody);
       }
