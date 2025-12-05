@@ -68,12 +68,13 @@ export class ApiHelper {
    * @param {string} password - Senha do usuário
    * @returns {Promise<Response>} Resposta da API
    */
-  async register(name, email, password) {
+  async register(name, email, password, confirmPassword) {
     const response = await this.request.post(`${this.baseURL}${Config.endpoints.auth.register}`, {
       data: {
         name,
         email,
-        password
+        password,
+        confirmPassword: confirmPassword ?? password
       },
       headers: this.getDefaultHeaders()
     });
@@ -535,9 +536,9 @@ export class ApiHelper {
  */
 export const TestData = {
   validUser: {
-    name: 'João Silva',
-    email: 'joao.silva@teste.com',
-    password: 'minhasenha123'
+    name: 'Automação Playwright',
+    email: 'automacao@playwright.com',
+    password: 'Teste@123456789'
   },
   
   invalidEmails: [

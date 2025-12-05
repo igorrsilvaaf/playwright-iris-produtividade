@@ -15,13 +15,13 @@ test.describe('API - Tasks', () => {
     test('Deve criar uma nova tarefa com dados completos', async () => {
       const taskData = {
         title: `Tarefa Teste ${Date.now()}`,
-        description: 'Descrição da tarefa de teste',
+        description: `Descrição da tarefa de teste ${Date.now()}`,
         priority: 2
       };
 
       const response = await apiHelper.createTask(taskData);
 
-      expect(response.status()).toBe(200);
+      expect(response.status()).toBe(201);
       
       const responseBody = await response.json();
       expect(responseBody.success).toBe(true);
@@ -41,7 +41,7 @@ test.describe('API - Tasks', () => {
 
       const response = await apiHelper.createTask(taskData);
 
-      expect(response.status()).toBe(200);
+      expect(response.status()).toBe(201);
       
       const responseBody = await response.json();
       expect(responseBody.success).toBe(true);
@@ -60,7 +60,7 @@ test.describe('API - Tasks', () => {
         };
 
         const response = await apiHelper.createTask(taskData);
-        expect(response.status()).toBe(200);
+        expect(response.status()).toBe(201);
         
         const responseBody = await response.json();
         expect(responseBody.task.priority).toBe(priority);
@@ -79,7 +79,7 @@ test.describe('API - Tasks', () => {
           priority: 2
         });
         
-        expect(response.status()).toBe(200);
+        expect(response.status()).toBe(201);
         
         const data = await response.json();
         createdTasks.push(data.task);
@@ -160,7 +160,7 @@ test.describe('API - Tasks', () => {
       };
 
       const createResponse = await apiHelper.createTask(taskData);
-      expect(createResponse.status()).toBe(200);
+      expect(createResponse.status()).toBe(201);
       
       const createdTask = await createResponse.json();
       const taskId = createdTask.task.id;
@@ -212,7 +212,7 @@ test.describe('API - Tasks', () => {
         priority: 5
       });
 
-      if (response.status() === 200) {
+      if (response.status() === 201) {
         const data = await response.json();
         expect(data.task).toBeDefined();
       } else {
@@ -237,7 +237,7 @@ test.describe('API - Tasks', () => {
         }
       });
 
-      if (response.status() === 200) {
+      if (response.status() === 201) {
         const data = await response.json();
         expect(data.task || data.success).toBeDefined();
       } else {
@@ -258,7 +258,7 @@ test.describe('API - Tasks', () => {
       for (const title of specialTitles) {
         const response = await apiHelper.createTask({ title });
         
-        if (response.status() === 200) {
+        if (response.status() === 201) {
           const data = await response.json();
           expect(data.task.title).toBeDefined();
         } else {
@@ -272,7 +272,7 @@ test.describe('API - Tasks', () => {
         title: 'A'.repeat(1000)
       });
 
-      if (response.status() === 200) {
+      if (response.status() === 201) {
         const data = await response.json();
         expect(data.task.title).toBeDefined();
       } else {
@@ -295,7 +295,7 @@ test.describe('API - Tasks', () => {
       const responses = await Promise.all(promises);
 
       responses.forEach((response, index) => {
-        expect(response.status()).toBe(200);
+        expect(response.status()).toBe(201);
       });
     });
   });
@@ -321,7 +321,7 @@ test.describe('API - Tasks', () => {
         headers: apiHelper.getDefaultHeaders()
       });
 
-      expect(response.status()).toBe(200);
+      expect(response.status()).toBe(201);
     });
   });
 });

@@ -8,12 +8,7 @@ test.describe('API - Login de Usuário', () => {
 
   test.beforeEach(async ({ request }) => {
     apiHelper = new ApiHelper(request);
-    
-    registeredUser = {
-      name: 'Automação',
-      email: 'automacao@playwright.com',
-      password: 'Teste@123'
-    };
+    registeredUser = TestData.validUser;
   });
 
   test('Deve fazer login com credenciais válidas', async () => {
